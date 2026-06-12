@@ -33,10 +33,10 @@ def validate(ws: pathlib.Path, manifest: dict[str, str]) -> dict:
                        capture_output=True, text=True)
     unexpected = []
     for ln in r.stdout.splitlines():
-        ln = ln.strip()
-        if ln:
-            st, fname = ln[:2].strip(), ln[3:]
-            if fname not in manifest: unexpected.append(dict(status=st, file=fname))
+        if not ln.strip(): continue
+        st = ln[:2].strip()   # XY status (fixed-width, must NOT strip ln first)
+        fname = ln[3:].strip()
+        if fname not in manifest: unexpected.append(dict(status=st, file=fname))
     correct = (ok == total and not missing)
     return dict(correct=correct, files_ok=ok, files_total=total,
                 mismatches=mismatches, missing=missing,
