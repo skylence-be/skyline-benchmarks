@@ -1,0 +1,37 @@
+[
+  {
+    "id": "claude-haiku-4-5",
+    "runtime": "claude",
+    "model_args": ["--model", "claude-haiku-4-5-20251001"]
+  },
+  {
+    "id": "claude-sonnet-4-6",
+    "runtime": "claude",
+    "model_args": ["--model", "claude-sonnet-4-6"]
+  },
+  {
+    "id": "claude-opus-4-8",
+    "runtime": "claude",
+    "model_args": ["--model", "claude-opus-4-8"]
+  },
+  {
+    "id": "claude-fable-5",
+    "runtime": "claude",
+    "model_args": ["--model", "claude-fable-5"]
+  },
+  {
+    "id": "codex-gpt-5.5",
+    "runtime": "codex",
+    "model_args": ["--model", "gpt-5.5"]
+  },
+  {
+    "id": "codex-gpt-5.4",
+    "runtime": "codex",
+    "model_args": ["--model", "gpt-5.4"]
+  },
+  {
+    "id": "codex-spark",
+    "runtime": "codex",
+    "model_args": ["--model", "TODO-PROBE-A-spark-slug"]
+  }
+]
