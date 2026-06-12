@@ -106,7 +106,7 @@ run_preflight() {
         "$cfg_b" \
         "Read,Edit,Write,NotebookEdit,Grep,Glob,Bash" \
         "Call skyline_version and reply: DONE-preflight-B") || true
-    daemon_stop "$port"
+    daemon_stop "$port" "$d2"
     if _claude_text "$c2" | grep -qF "DONE-preflight-B"; then
         echo "PASS Cell 2 (Arm B): sentinel + skyline MCP live"
         echo "  tokens in=$(_claude_usage "$c2" input_tokens) out=$(_claude_usage "$c2" output_tokens)"
@@ -234,7 +234,7 @@ $t1b"
     echo "Spawning Claude Arm B (may take 2-5 min)..."
     local out_b_json out_b_text
     out_b_json=$(_run_claude "$model" "$cfg_b" "Read,Edit,Write,NotebookEdit,Grep,Glob,Bash" "$prompt_b" "$ws_b")
-    daemon_stop "$port"
+    daemon_stop "$port" "$d_b"
     out_b_text=$(_claude_text "$out_b_json")
 
     echo "Arm B response (last 5 lines):"

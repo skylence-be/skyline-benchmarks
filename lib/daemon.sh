@@ -9,7 +9,7 @@ daemon_start() {
     SKYLINE_DATA_DIR="$data_dir" SKYLINE_BENCH=1 SKYLINE_BENCH_LABEL="$cell_id" \
         "$SKYLINE_BIN" daemon start --port "$port"
     local deadline=$(( $(date +%s) + 20 ))
-    while ! "$SKYLINE_BIN" version --port "$port" &>/dev/null 2>&1; do
+    while ! "$SKYLINE_BIN" client tools --port "$port" &>/dev/null 2>&1; do
         [[ $(date +%s) -ge $deadline ]] && { echo "[daemon] start timeout port=$port" >&2; return 1; }
         sleep 0.5
     done
@@ -17,8 +17,13 @@ daemon_start() {
 }
 
 daemon_stop() {
-    local port="$1"
-    "$SKYLINE_BIN" daemon stop --port "$port" 2>/dev/null || true
+    local port="$1" data_dir="${2:-}"
+    if [[ -n "$data_dir" ]]; then
+        SKYLINE_DATA_DIR="$data_dir" "$SKYLINE_BIN" daemon stop --port "$port" 2>/dev/null || true
+    else
+        local pid; pid=$(lsof -i ":${port}" -sTCP:LISTEN -t 2>/dev/null || true)
+        [[ -n "$pid" ]] && kill "$pid" 2>/dev/null || true
+    fi
     echo "[daemon] stopped port=$port"
 }
 
